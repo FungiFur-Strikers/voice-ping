@@ -15,23 +15,25 @@ export const BotProvider: React.FC<BotProviderProps> = ({ children }) => {
     avatarURL: '',
   });
   const [error, setError] = useState('');
-  const [token, setToken] = useState(Cookies.get(storageKeys.BOT_TOKEN));
+  const [token, setToken] = useState(
+    localStorage.getItem(storageKeys.BOT_TOKEN)
+  );
   const [userToken, setUserToken] = useState(
-    Cookies.get(storageKeys.USER_TOKEN)
+    localStorage.getItem(storageKeys.USER_TOKEN)
   );
   const [clientId, setClientId] = useState(
-    Cookies.get(storageKeys.BOT_CLIENT_ID)
+    localStorage.getItem(storageKeys.BOT_CLIENT_ID)
   );
   const [clientSecret, setClientSecret] = useState(
-    Cookies.get(storageKeys.BOT_CLIENT_SECRET)
+    localStorage.getItem(storageKeys.BOT_CLIENT_SECRET)
   );
   const [redirectURI, setRedirectURI] = useState(
-    Cookies.get(storageKeys.BOT_REDIRECT_URI)
+    localStorage.getItem(storageKeys.BOT_REDIRECT_URI)
   );
 
   const reset = () => {
-    Cookies.remove(storageKeys.BOT_TOKEN);
-    setToken(undefined);
+    localStorage.removeItem(storageKeys.BOT_TOKEN);
+    setToken(null);
   };
 
   const signOut = async () => {
@@ -40,7 +42,7 @@ export const BotProvider: React.FC<BotProviderProps> = ({ children }) => {
 
   const handleChangeUserToken = (nextToken: string) => {
     setUserToken(nextToken);
-    Cookies.set(storageKeys.USER_TOKEN, nextToken);
+    localStorage.setItem(storageKeys.USER_TOKEN, nextToken);
   };
 
   const handleChangeToken = async (
@@ -59,10 +61,10 @@ export const BotProvider: React.FC<BotProviderProps> = ({ children }) => {
       setClientId(clientId);
       setClientSecret(clientSecret);
       setRedirectURI(redirectURI);
-      Cookies.set(storageKeys.BOT_TOKEN, nextToken);
-      Cookies.set(storageKeys.BOT_CLIENT_ID, clientId);
-      Cookies.set(storageKeys.BOT_CLIENT_SECRET, clientSecret);
-      Cookies.set(storageKeys.BOT_REDIRECT_URI, redirectURI);
+      localStorage.setItem(storageKeys.BOT_TOKEN, nextToken);
+      localStorage.setItem(storageKeys.BOT_CLIENT_ID, clientId);
+      localStorage.setItem(storageKeys.BOT_CLIENT_SECRET, clientSecret);
+      localStorage.setItem(storageKeys.BOT_REDIRECT_URI, redirectURI);
 
       return;
     } catch (error) {
